@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-pjax-version" >
+    <!--browser renderer-->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="renderer" content="webkit">
+
+    <!--cache control-->
+    <!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"> -->
+    <!-- <meta http-equiv="Pragma" content="no-cache"> -->
+    <meta http-equiv="Expires" content="0">
+
+    <!--css import-->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="css/main.min.css">
+    <link  rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/content.css">
+    <title>全家康配送调度中心</title>
+
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css">
+    <!-- <script src="http://webapi.amap.com/maps?v=1.4.0&key=b7df1517bda3cdf6b6fbf37d5883dc9a&plugin=Amap.Riding,AMap.Autocomplete,AMap.PlaceSearch,AMap.PolyEditor,AMap.CircleEditor"></script> -->
+    <!-- <script src="http://webapi.amap.com/maps?v=1.4.1&key=b7df1517bda3cdf6b6fbf37d5883dc9a&plugin=Amap.Riding"></script> -->
+    <!-- <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=b7df1517bda3cdf6b6fbf37d5883dc9a&plugin=AMap.Riding"></script> -->
+    <!-- mock值，可删除 -->
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">您的浏览器版本太老啦，请<a href="http://browsehappy.osfipin.com" target="_blank">『升级到最新现代浏览器』</a>以获得最佳的浏览体验和安全性</p>
+    <![endif]-->
+    <div id="root">
+        <div class="ant-layout ant-layout-has-sider">
+            <div class="ant-layout-sider">
+                <div class="ant-layout-sider-children">
+                    <div class="fm-logo">
+                        <a href="#" class="fm-logo__link">
+                            <img src="img/logo.svg" alt="logo" class="fm-logo__img">
+                            <h1 class="fm-logo__title">全家康配送调度中心</h1>
+                        </a>
+                    </div>
+                    <div class="fm-sider-menu fm-scrollbar">
+                        <ul class="ant-menu ant-menu-inline ant-menu-dark ant-menu-root" tabindex="0">
+                            <li class="ant-menu-submenu-inline ant-menu-submenu ant-menu-submenu-open">
+                                <div class="ant-menu-submenu-title"><span><i class="oi oi-basket anticon"></i><span>订单分派</span></span>
+                                    <i class="ant-menu-submenu-arrow"></i></div>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub">
+                                    <li class="ant-menu-item-selected ant-menu-item">
+                                        <a data-url="customer/customer.html" href="javascript:;" id="Fir"><span>订单信息</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="ant-menu-submenu-inline ant-menu-submenu">
+                                <div class="ant-menu-submenu-title"><span><i class="oi oi-basket anticon"></i><span>配送调度</span></span>
+                                    <i class="ant-menu-submenu-arrow"></i></div>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
+                                    <li class="ant-menu-item">
+                                        <a data-url="first.html" href="javascript:;"><span>待派单</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="process.html" href="javascript:;"><span>配送中</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="completed.html" href="javascript:;"><span>已完成</span></a>
+                                    </li>
+                                    <li class="ant-menu-item" role="menuitem">
+                                        <a data-url="abnormal-order.html" href="javascript:;"><span>异常订单</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="ant-menu-submenu-inline ant-menu-submenu">
+                                <div class="ant-menu-submenu-title"><span><i class="oi oi-command anticon"></i><span>管理中心</span></span><i class="ant-menu-submenu-arrow"></i></div>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
+                                    <li class="ant-menu-item">
+                                        <a data-url="team-management.html" href="javascript:;"><span>团队管理</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="dispatch-record.html" href="javascript:;"><span>派单记录</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="ant-menu-submenu-inline ant-menu-submenu">
+                                <div class="ant-menu-submenu-title"><span><i class="oi oi-command anticon"></i><span>商家管理</span></span><i class="ant-menu-submenu-arrow"></i></div>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
+                                    <li class="ant-menu-item">
+                                        <a data-url="cooperation.html" href="javascript:;"><span>合作商家</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="ant-menu-submenu-inline ant-menu-submenu">
+                                <div class="ant-menu-submenu-title"><span><i class="oi oi-command anticon"></i><span>资金对账</span></span><i class="ant-menu-submenu-arrow"></i></div>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
+                                    <li class="ant-menu-item">
+                                        <a data-url="reconciliation.html" href="javascript:;"><span>配送员对账</span></a>
+                                        <input type="text" id="test1" value="时间">
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ant-layout">
+                <nav class="fm-navbar navbar navbar-default">
+                    <div class="container-fluid">
+                        <ul class="fm-navbar__nav nav navbar-nav">
+                            <li class="active">
+                                <a href="#">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">Disabled</a>
+                            </li>
+                        </ul>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-bell"></i>
+                                        <span class="badge fm-noti-badge">5</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="screenfull">
+                                        <i class="glyphicon glyphicon-fullscreen"></i>
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-user"></i>超级管理员 <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="ant-layout-content" style="top:50px">
+                    <div class="fm-content" id="FmContent">
+                        <!-- customer/customer -->
+                        <iframe src="team-management.html" frameborder="0" width="100%" height="100%" id="Iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    var Sider = function() {
+        this.$submenuTitle = $('.ant-menu-submenu-title');
+        this.$submenu = $('.ant-menu-submenu');
+        this.$menuItem = $('.ant-menu-item');
+    };
+    Sider.prototype.init = function() {
+        $this = this;
+        $this.$submenuTitle.on('click', function() {
+            currentSubmenu = $(this).parent()[0];
+            $this.$submenu.each(function() {
+                if (this == currentSubmenu) {
+                    return true;
+                }
+                $(this).removeClass('ant-menu-submenu-open').find('.ant-menu-sub').addClass('ant-menu-hidden');
+            });
+            $(this).parent().toggleClass('ant-menu-submenu-open').find('.ant-menu-sub').toggleClass('ant-menu-hidden');
+        });
+
+        this.$menuItem.on('click', function() {
+            $this.$menuItem.each(function() {
+                $(this).removeClass('ant-menu-item-selected');
+            });
+            $(this).addClass('ant-menu-item-selected');
+        });
+    };
+
+    //全屏操作
+    var Screenfull = function() {
+        this.$screenfullBtn = $('#screenfull');
+    };
+
+    Screenfull.prototype.init = function() {
+        this.$screenfullBtn.on('click', function() {
+            if (screenfull.enabled) {
+                screenfull.toggle();
+            }
+            if (screenfull.isFullscreen) {
+                $(this).find('.oi').removeClass('oi-fullscreen-exit').addClass('oi-fullscreen-enter').end().find('span').html('全屏');
+            } else {
+                $(this).find('.oi').removeClass('oi-fullscreen-enter').addClass('oi-fullscreen-exit').end().find('span').html('关闭全屏');
+            }
+            return false;
+        });
+    };
+
+    var sider = new Sider();
+    var screenfull = new Screenfull();
+    sider.init();
+    screenfull.init();
+    $(document).on("click","a",function(){
+            var iframeurl = $(this).attr("data-url");
+            if(iframeurl){
+                $("#Iframe").attr("src",iframeurl);
+            }
+    })
+</script>
+</body>
+
+</html>

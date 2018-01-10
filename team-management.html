@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script src="./public/js/art-template.min.js"></script>
+</head>
+<body>
+<!-- add-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="请输入查询信息">
+                <button type="submit" class="btn btn-default btn-primary">搜索</button>
+            </div>
+            <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#myModal1">添加</button>
+        </form>
+    </div>
+</div>
+<!-- add -->
+<!--content-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <!-- 有产品显示 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active tab-content-f" id="home">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>团队成员</th>
+                            <th>联系方式</th>
+                            <th>职位</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complateList">
+                        <tr>
+                            <td>助理岗</td>
+                            <td>15862374547</td>
+                            <td>配送员</td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-loading-text="删除中" data-target="#staffDel" data-whatever="{{$value.id}}"> 
+                                    删除
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-whatever="{{$value}}">
+                                    修改
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="zxf_pagediv"></div>
+                <!-- 分页 -->
+            </div>
+        </div>
+        <!-- 有产品显示 -->
+        <!-- 没有数据显示 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active tab-content-f" id="home">
+                <div class="panel panel-info">
+                    <div class="panel-body text-center">
+                        暂无成员信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 没有数据显示 -->
+    </div>
+
+</div>
+<!-- 删除信息 -->
+<div class="modal fade bs-example-modal-sm" id="staffDel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    确认删除此员工信息？
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="submit" class="btn btn-danger" id="staff_del">
+                    删除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改信息 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    编辑信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group staff-name">
+                        <label for="inputEmail3" class="col-sm-3 control-label">姓名：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="姓名">
+                        </div>
+                    </div>
+                    <div class="form-group staff-phone">
+                        <label for="inputPassword3" class="col-sm-3 control-label">联系方式：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="联系方式">
+                        </div>
+                    </div>
+                    <div class="form-group staff-admin">
+                        <label for="inputPassword3" class="col-sm-3 control-label">配送员帐号：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="帐号">
+                        </div>
+                    </div>
+                    <div class="form-group staff-pass">
+                        <label for="inputPassword3" class="col-sm-3 control-label">配送员密码：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="密码：">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="staff_info_revise">
+                            提交更改
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+<!-- 添加成员 -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">
+                    添加成员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">姓名：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="请输入姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">联系方式：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="请输入联系方式">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">职位：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="请输入职位">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            添加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="List" type="text/html">
+    {{each}}  
+        <tr>
+            <td>{{$value.username}}</td>
+            <td>{{$value.phone}}</td>
+            <td>配送员</td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1" data-whatever="{{$value.id}}"> 
+                    删除
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-whatever="{{$value}}">
+                    修改
+                </button>
+            </td>
+        </tr>
+    {{/each}}
+</script>
+<script>
+    (function(){
+        $.ajax({
+            url:"http://test.wanglanyin.com/distri/list",
+            success:function(data){
+                if(data.code == 1){
+                    console.log(data);
+                    var data_list = data.result;
+                    var html = template('List', data_list);
+                    document.getElementById('complateList').innerHTML = html;
+                }
+            }
+        })
+    })()
+    $("#orderDel").on("show.bs.modal",function(){
+    $("#order_del").attr('data-id',$(event.relatedTarget).data("whatever"));
+})
+    // 配送员删除
+$("#staffDel").on("show.bs.modal",function(){
+    $("#staff_del").attr('data-id',$(event.relatedTarget).data("whatever"));
+})
+$("#staff_del").on("click",function(){
+    var $staff_del_btn = $(this);
+    var staff_del_btn_id = $staff_del_btn.attr("data-id");
+    $.ajax({
+          type: 'GET',
+          url: "http://test.wanglanyin.com//distri/operation",
+          data: 
+          {
+            "action":'del',
+            "id":staff_del_btn_id
+        },
+        success: function(data){
+            console.log(data);
+            $staff_del_btn.button('loading');
+            list_updata(function(){
+                $('#staffDel').modal('toggle');
+                $staff_del_btn.button('reset');
+            });
+        },
+        failed:function(){
+            $staff_del_btn.button('reset');
+        }
+    })
+})
+// 配送员操作
+$("#staffInfoRevise").on("show.bs.modal",function(){
+    var serialno = $(this).find(".staff-name input").val();
+    var orderno = $(this).find(".staff-phone input").val();
+    var fullname = $(this).find(".staff-admin input").val();
+    var phone = $(this).find(".staff-pass input").val();
+
+    $("#staff_info_revise").attr('data-id',$(event.relatedTarget).data("whatever").if);
+})
+$("#staff_info_revise").on("click",function(){
+    var $staff_del_btn = $(this);
+    var staff_del_btn_id = $staff_del_btn.attr("data-id");
+    var name = $("#staffInfoRevise").find(".staff-name input").val();
+    var phone = $("#staffInfoRevise").find(".staff-phone input").val();
+    var username = $("#staffInfoRevise").find(".staff-admin input").val();
+    var password = $("#staffInfoRevise").find(".staff-pass input").val();
+    $.ajax({
+          type: 'GET',
+          url: "http://test.wanglanyin.com//distri/operation",
+          data: 
+          {
+            "action":'edit',
+            "id":staff_del_btn_id
+        },
+        success: function(data){
+            console.log(data);
+            $staff_del_btn.button('loading');
+            list_updata(function(){
+                $('#staffDel').modal('toggle');
+                $staff_del_btn.button('reset');
+            });
+        },
+        failed:function(){
+            $staff_del_btn.button('reset');
+        }
+    })
+})
+</script>
+</body>
+</html>

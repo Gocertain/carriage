@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- search-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="start-date">内容：</label>
+                <input type="text" class="form-control" placeholder="输入搜索信息...">
+            </div>
+            <button type="submit" class="btn btn-default btn-primary">搜索</button>
+        </form>
+    </div>
+</div>
+<!-- search-->
+<!--content-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <!-- 有产品显示 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active tab-content-f" id="home">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单平台</th>
+                            <th>订单编号</th>
+                            <th>平台编号</th>
+                            <th>收货人姓名</th>
+                            <th>联系电话</th>
+                            <th>收货地址</th>
+                            <th>取货仓</th>
+                            <th>配送人员</th>
+                            <th>配送电话</th>
+                            <th>订单状态</th>
+                            <th>下单时间</th>
+                            <th>接单时间</th>
+                            <th>送达时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complateList">
+                        <tr>
+                            <td>1</td>
+                            <td>平台</td>
+                            <td>#1</td>
+                            <td>201801030000007</td>
+                            <td>朱里港</td>
+                            <td>15862374547</td>
+                            <td>北门路1997号百佳汇大药房</td>
+                            <td>A仓</td>
+                            <td>老相机</td>
+                            <td>15862374547</td>
+                            <td>已配送</td>
+                            <td>2017/11/17 15：29</td>
+                            <td>2017/11/17 15：29</td>
+                            <td>2017/11/17 15：29</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetails" data-whatever="{'a':'nishi'}">下发</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="zxf_pagediv"></div>
+                <!-- 分页 -->
+            </div>
+        </div>
+        <!-- 有产品显示 -->
+
+        <!-- 没有数据显示 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active tab-content-f" id="home">
+                <div class="panel panel-info">
+                    <div class="panel-body text-center">
+                        暂无指定订单信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 没有数据显示 -->
+    </div>
+
+</div>
+<div class="modal fade" id="orderDetails" tabindex="-1" role="dialog" aria-labelledby="orderDetailsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:0;border-bottom:0;">
+                <h4 class="modal-header" style="margin-bottom:0;border-bottom:0;">订单详情</h4>
+            </div>
+            <ul class="list-group form-horizontal">
+                  <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 distrib-mode">配送方式</label>
+                        <div class="col-sm-9">
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="distribMode" value="1" checked>
+                                平台配送
+                              </label>
+                              <label>
+                                <input type="radio" name="distribMode" value="2">
+                                外包配送                
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                  </li>
+            </ul>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="List" type="text/html">
+    {{each}}  
+    <tr>
+        <td>{{$index+1}}</td>
+        <td>{{$value.platform}}</td>
+        <td>{{$value.serialno}}</td>
+        <td>{{$value.orderno}}</td>
+        <td>{{$value.fullname}}</td>
+        <td>{{$value.phone}}</td>
+        <td>{{$value.address}}</td>
+        <td>{{$value.store}}</td>
+        <td>{{$value.distri_name}}</td>
+        <td>{{$value.distri_phone}}</td>
+        <td>
+            {{$value.state}}
+        </td>
+        <td>{{$value.placeorder}}</td>
+        <td>{{$value.start}}</td>
+        <td>{{$value.end}}</td>
+        <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetails" data-whatever="{{$value}}">编辑</button>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+
+var art_data;
+ 
+$.ajax({
+    url:'http://172.22.5.152:8080/admin/index',
+
+    success:function(data,status){
+        if(data.code == 1){
+            art_data = data.result; 
+
+            var html = template('List', art_data);
+            document.getElementById('complateList').innerHTML = html;
+        }
+    }
+})
+
+
+function strToJson(str){ 
+    var json = (new Function("return " + str))(); 
+    return json; 
+} 
+ $('#orderDetails').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var order_info = button.data('whatever')
+
+        var modal = $(this);
+        modal.find('.modal-main .order-num').text(order_info.serialno);
+        modal.find('.modal-main .platform-num').text(order_info.orderno);
+        modal.find('.modal-main .customer-name').text(order_info.fullname);
+        modal.find('.modal-main .customer-phone').text(order_info.phone);
+        modal.find('.modal-main .customer-address').text(order_info.address);
+        if( !!order_info.platform ){
+            $("#Platform").find("input:radio").removeAttr("checked");
+            $("#Platform").find("input:radio:eq(1)").attr("checked","true");   
+        }
+        
+
+    })
+</script>
+</body>
+</html>
