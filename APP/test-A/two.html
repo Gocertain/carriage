@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>配送端-全家康</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+        <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="stylesheet" href="css/mui.min.css">
+        <!--<link rel="stylesheet" href="css/mui.imageviewer.css" />-->
+        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/app.css" />
+        <script src="js/template-web.js"></script>
+        <style type="text/css">
+            .mui-content>.mui-table-view:first-child {
+                margin-top: -1px;
+            }
+
+            #list-con-a {
+                min-height: 700px;
+            }
+
+            .mui-table-view-cell:after {
+                left: 0px!important;
+            }
+
+            #list-con-a>.mui-table-view-cell {
+                padding: 15px;
+            }
+
+            #list-con-a .inner .mui-table-view-cell {
+                padding: 5px 0;
+            }
+
+            .text-cen {
+                text-align: center;
+            }
+
+            .list-flex {
+                width: 100%;
+                padding: 10px 15px;
+                display: flex;
+            }
+
+            .list-flex .fir {
+                font-size: 16px;
+                line-height: 1.2;
+                text-align: left;
+                min-width: 50px;
+                color: #999;
+            }
+
+            .list-flex .sec {
+                flex: 1;
+                color: #666;
+            }
+            .fsize14{
+                font-size:14px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--下拉刷新容器-->
+        <div id="pullrefresh" class="mui-content">
+            <!--数据列表-->
+            <ul class="mui-table-view mui-table-view-chevron" id="list-con-a"></ul>
+        </div>
+        <div id="open_win" class="box mui-popover mui-popover-action mui-popover-bottom">
+            <form class="mui-input-group">
+                <div id="reason" class="mui-table-view-cell">
+
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" class="mui-btn mui-btn-danger" id="resaonCheckedEsc">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="mui-btn mui-btn-primary" id="resaonCheckedOk">确认</button>
+                </div>
+            </form>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/mui.zoom.js"></script>
+        <script src="js/mui.previewimage.js"></script>
+        <script src="js/userinfo.js"></script>
+        <script id="list-con" type="text/html">
+            {{each}}
+            <li class="mui-table-view-cell mui-collapse">
+                <a href="#" class="fsize14">#{{$value.serialno}}&nbsp;&nbsp;&nbsp;&nbsp;{{$value.address}}</a>
+                <ul class="mui-table-view inner">
+                    <li class="mui-table-view-cell">
+                        <div class="list-flex">
+                            <div class="fir">平台：</div>
+                            <div class="sec">{{$value.platform}}&nbsp;&nbsp;({{$value.created_at}})</div>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <div class="list-flex">
+                            <div class="fir">电话：</div>
+                            <div class="sec"><a href="tel:{{$value.phone}}">{{$value.phone}}</a>&nbsp;&nbsp;({{$value.fullname}})</div>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <div class="list-flex">
+                            <div class="fir">地址：</div>
+                            <div class="sec">{{$value.address}}</div>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <div class="list-flex">
+                            <div class="fir">取货仓：</div>
+                            <div class="sec">{{$value.store}}</div>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <div class="text-cen" style="padding:5px 0;">
+                            <button type="button" data-id="{{$value.id}}" data-status="3" class="mui-btn mui-btn-success order-status">送达</button>
+                            <button type="button" data-id="{{$value.id}}" data-status="7" class="mui-btn mui-btn-warning order-defail">退单</button>
+                        </div>
+                    </li>
+                </ul>
+
+            </li>
+            {{/each}}
+        </script>
+        <script>
+//          mui.previewImage();
+            mui.init({
+                pullRefresh: {
+                    container: '#pullrefresh',
+                    down: {
+                        style: "circle",
+                        callback: pulldownRefresh
+                    },
+                    up: {
+                        contentrefresh: '正在加载...'
+                    }
+                }
+            });
+            //common
+            function evil(fn) {
+                var Fn = Function;
+                return new Fn('return ' + fn)();
+            }
+
+            function ajaxdefail(text) {
+                var innertext = text || "请求失败,请重试...";
+                mui.toast(innertext);
+            }
+
+            function muialert(text) {
+                mui.alert(text);
+            }
+
+           //取消原因
+           $.ajax({
+                url:'http://test.wanglanyin.com/admin/operation',
+                data:{
+                    "action":"cancel"
+                },
+                success:function(data,status){
+                    if(data.code == 1){
+                        console.log(data);
+                        var data_store_list = data.result;
+                        var reason_html = "";
+                        var reson_option;
+                        for(var i = 0;i<data_store_list.length;i++){
+                            if(i == 0){
+                                reson_option = '<div class="mui-table-view-cell mui-radio mui-left"><input name="radio" type="radio" value='+data_store_list[i].id+'  checked="true">'+data_store_list[i].cause_ret+'</div>';
+                            }else{
+                                reson_option = '<div class="mui-table-view-cell mui-radio mui-left"><input name="radio" type="radio" value='+data_store_list[i].id+'>'+data_store_list[i].cause_ret+'</div>';
+                            }
+
+
+                            reason_html = reason_html+=reson_option;
+                        }
+                        $("#reason").append(reason_html);
+
+                    }
+                }
+            })
+            //页数
+            var count = 0;
+            var allpage;
+            var uprefstatus = true;
+            var downrefstatus = true;
+            //下拉刷新具体业务实现
+            function pulldownRefresh() {
+                if(downrefstatus) {
+                    downrefstatus = false;
+                    ajaxdefail("刷新成功");
+                    getlistall(1, function() {
+                        downrefstatus = true;
+                        setTimeout(function() {
+                            try{
+                                mui('#pullrefresh').pullRefresh().endPulldown();
+                            }catch(e){
+
+                            }
+
+                        }, 1000)
+                    });
+                }
+
+            }
+
+
+            //获取全部列表数据
+            function getlistall(n, fn) {
+                count = 1;
+                var url = "http://test.wanglanyin.com/wap/show";
+                var datas;
+                mui.ajax(url, {
+                    data: {
+                        "action":"already",
+                        "state":2,
+                        "uid":user_uid
+                    },
+                    dataType: 'json',
+                    type: 'GET',
+                    timeout: 15000,
+                    success: function(data) {
+                        if(data.code == 1) {
+                            var listdata = data.result;
+                            var html = templatecon(listdata);
+                            $("#list-con-a").html(html);
+                            fn && fn();
+                        } else {
+                            ajaxdefail();
+                        }
+                    },
+                    error: function() {
+                        ajaxdefail();
+                    }
+                })
+            }
+            getlistall();
+            //配送员操作
+            function getclick(id, state,reason) {
+                var url;
+                var datas = {};
+                datas.state = state;
+                if(reason){
+                    url = "http://test.wanglanyin.com/wap/change"
+                    datas.id = id;
+                    datas.cancel_id = reason;
+                }else{
+                    url = "http://test.wanglanyin.com/wap/accept";
+                    datas.uid = user_uid;
+                    datas.orderid = id;
+                }
+                mui.ajax(url, {
+                    data: datas,
+                    dataType: 'json',
+                    type: 'get',
+                    success: function(data) {
+                        if(data.code == 1) {
+                            getlistall(1);
+                        } else {
+                            muialert(data.message);
+                            getlistall(1, function() {
+                                setTimeout(function() {
+                                    ajaxdefail("刷新成功");
+                                }, 1000)
+                            })
+
+                        }
+                    },
+                    error: function() {
+                        ajaxdefail();
+                    }
+                })
+            }
+
+            function templatecon(data) {
+                return template('list-con', data);
+            }
+
+            mui("#list-con-a").on("tap", '.order-status', function() {
+                var id = this.getAttribute("data-id");
+                var status = this.getAttribute("data-status");
+                mui.confirm("确认送达", ["确定", "取消"], function(e) {
+                    if(e.index == 0) {
+                        getclick(id, status);
+                    }
+                })
+            })
+            mui("#list-con-a").on("tap", ".order-defail", function() {
+                var id = this.getAttribute("data-id");
+                var status = this.getAttribute("data-status");
+
+                mui("#open_win").popover("show");
+                $("#resaonCheckedOk").on("click",function(){
+                    var reason_id = $("#reason").find("input[type=radio]:checked").val();
+                    getclick(id,status,reason_id);
+                    mui("#open_win").popover("hide");
+                })
+                $("#resaonCheckedEsc").on("click",function(){
+                    mui("#open_win").popover("hide");
+                })
+            })
+//          if(mui.os.plus) {
+//              mui.plusReady(function() {
+//                  setTimeout(function() {
+//                      mui('#pullrefresh').pullRefresh().pullupLoading();
+//                  }, 1000);
+//
+//              });
+//          } else {
+//              mui.ready(function() {
+//                  mui('#pullrefresh').pullRefresh().pullupLoading();
+//              });
+//          }
+        </script>
+    </body>
+
+</html>

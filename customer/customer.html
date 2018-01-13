@@ -13,16 +13,15 @@
     <!-- search-->
 <div class="panel panel-default">
     <div class="panel-body">
-        <form class="form-inline col-sm-6">
+        <form class="form-inline col-sm-6" >
             <div class="form-group">
                 <label for="start-date">内容：</label>
-                <input type="text" class="form-control" placeholder="输入搜索信息...">
+                <input type="text" class="form-control" id="sourch_input" placeholder="输入搜索信息...">
             </div>
-            <button type="submit" class="btn btn-default btn-primary">搜索</button>
+            <button type="button" class="btn btn-default btn-primary" id="sourch_input_btn">搜索</button>
         </form>
         <div class="col-sm-6">
             <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#orderDetails" data-whatever="0">新增订单</button>
-            
         </div>
 
     </div>
@@ -37,7 +36,6 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>序号</th>
                             <th>订单平台</th>
                             <th>订单编号</th>
                             <th>平台编号</th>
@@ -45,6 +43,7 @@
                             <th>联系电话</th>
                             <th>收货地址</th>
                             <th>取货仓</th>
+                            <th>配送方式</th>
                             <th>配送人员</th>
                             <th>配送电话</th>
                             <th>订单状态</th>
@@ -131,7 +130,7 @@
                         <label for="inputEmail3" class="col-sm-3">平台</label>
                         <div class="col-sm-9">
                             <select class="form-control" id="Platform">
-                                <option value="平台">平台</option>
+                                <option value="自营" selected>自营</option>
                                 <option value="饿了么">饿了么</option>
                                 <option value="美团">美团</option>
                                 <option value="百度">百度</option>
@@ -144,7 +143,7 @@
                         <div class="row">
                             <div class="col-sm-3">配送仓库</div>
                             <div class="col-sm-9 ">
-                              <select class="form-control" id="store_list">
+                                <select class="form-control" id="store_list">
                                 </select>
                         </div>
                     </li>
@@ -156,6 +155,7 @@
         </div>
     </div>
 </div>
+<!-- 下发订单 -->
 <div class="modal bs-example-modal-sm fade" id="orderNext" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -170,12 +170,17 @@
     </div>
   </div>
 </div>
+<!-- 取消订单 -->
 <div class="modal bs-example-modal-sm fade" id="orderCancel" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">取消订单</h4>
+      </div>
+      <div class="modal-body">
+            <select class="form-control" id="order_cancel_reason_list">
+            </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -184,6 +189,7 @@
     </div>
   </div>
 </div>
+<!-- 删除订单 -->
 <div class="modal bs-example-modal-sm fade" id="orderDel" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -203,7 +209,6 @@
 <script id="List" type="text/html">
     {{each}}  
     <tr>
-        <td>{{$index+1}}</td>
         <td>{{$value.platform}}</td>
         <td>{{$value.serialno}}</td>
         <td>{{$value.orderno}}</td>
@@ -211,18 +216,52 @@
         <td>{{$value.phone}}</td>
         <td>{{$value.address}}</td>
         <td>{{$value.store}}</td>
+        <td>
+            {{if($value.distri_method == 1)}}
+            平台配送
+            {{else if($value.distri_method == 2)}}
+            外派配送
+            {{else}}
+            待处理
+            {{/if}}
+        </td>
         <td>{{$value.distri_name}}</td>
         <td>{{$value.distri_phone}}</td>
         <td>
-            {{$value.state}}
+            {{if($value.state == 1)}} 
+             <button type="button" class="btn btn-primary">待配送 </button>
+            {{else if($value.state == 2)}}
+            <button type="button" class="btn btn-primary">配送中 </button>
+            {{else if($value.state == 3)}}
+            <button type="button" class="btn btn-success">已收货 </button>
+            {{else if($value.state == 4)}} 
+            <button type="button" class="btn btn-danger">退货中 </button>
+            {{else if($value.state == 5)}} 
+             <button type="button" class="btn btn-danger">已退货</button> 
+            {{else if($value.state == 7)}}
+            <button type="button" class="btn btn-warning">已取消 </button>
+            {{/if}}
         </td>
         <td>{{$value.placeorder}}</td>
         <td>{{$value.start}}</td>
         <td>{{$value.end}}</td>
         <td>
+            {{if($value.is_distri == 1)}} 
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#orderNext" data-whatever="{{$value.id}}">下发</button>
+            {{else}}
+            <button type="button" class="btn btn-deafult active">下发</button>
+            {{/if}}
+            {{if($value.state == 3)}} 
+            <button type="button" class="btn btn-deafult active">编辑</button>
+            {{else}}
             <button type="button" class="btn btn-primary" data-loading-text="正在提交..." data-toggle="modal" data-target="#orderDetails" data-whatever="{{$value}}">编辑</button>
+            {{/if}}
+
+            {{if($value.state == 7 || $value.state == 3)}} 
+            <button type="button" class="btn btn-deafult active">取消</button>
+            {{else}}
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#orderCancel" data-whatever="{{$value.id}}">取消</button>
+            {{/if}}
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#orderDel" data-whatever="{{$value.id}}">删除</button>
         </td>
     </tr>
@@ -255,17 +294,40 @@ list_updata();
         success:function(data,status){
             if(data.code == 1){
                 var data_store_list = data.result;
-
-                var html = "";
+                var store_html = "";
+                var store_option;
                 for(var i = 0;i<data_store_list.length;i++){
-                    var store_option = "<option value="+data_store_list[i].storename+">"+data_store_list[i].storename+"</option>";
-                    html = html+=store_option;
+                    store_option = "<option value="+data_store_list[i].storename+">"+data_store_list[i].storename+"</option>";
+                    
+                    store_html = store_html +=store_option;
                 }
-                $("#store_list").html(html);
+                $("#store_list").append(store_html);
 
             }
         }
     })
+    // 取消原因
+    $.ajax({
+        url:'http://test.wanglanyin.com/admin/operation',
+        data:{
+            "action":"cancel"
+        },
+        success:function(data,status){
+            if(data.code == 1){
+                console.log(data);
+                var data_store_list = data.result;
+                var reason_html = "";
+                var reson_option;
+                for(var i = 0;i<data_store_list.length;i++){
+                    reson_option = "<option value="+data_store_list[i].id+">"+data_store_list[i].cause_ret+"</option>";
+                    reason_html = reason_html+=reson_option;
+                }
+                $("#order_cancel_reason_list").append(reason_html);
+
+            }
+        }
+    })
+
 })();
 
 
@@ -276,7 +338,7 @@ function strToJson(str){
 
 
 // 显示新增和编辑模块
- $('#orderDetails').on('show.bs.modal', function (event) {
+$('#orderDetails').on('show.bs.modal', function (event) {
 
     var button = $(event.relatedTarget) // Button that triggered the modal
     var order_info = button.data('whatever')
@@ -304,13 +366,14 @@ function strToJson(str){
         $("#Platform").find("input:radio[value="+order_info.platform+"]").attr("checked",true);   
     }
 })
-
-$("#orderNext").on("show.bs.modal",function(){
+// 下发
+$("#orderNext").on("show.bs.modal",function(event){
     $("#order_next").attr('data-id',$(event.relatedTarget).data("whatever"));
 })
 $("#order_next").on("click",function(){
     var $order_next_btn = $(this);
     var order_next_btn_id = $order_next_btn.attr("data-id");
+    console.log($order_next_btn.get(0))
     $.ajax({
           type: 'GET',
           url: "http://test.wanglanyin.com/admin/operation",
@@ -323,7 +386,7 @@ $("#order_next").on("click",function(){
             console.log(data);
             $order_next_btn.button('loading');
             list_updata(function(){
-                $('#orderDetails').modal('toggle');
+                $('#orderNext').modal('toggle');
                 $order_next_btn.button('reset');
             });
         },
@@ -332,26 +395,29 @@ $("#order_next").on("click",function(){
         }
     })
 })
-
-$("#orderCancel").on("show.bs.modal",function(){
+// 取消订单
+$("#orderCancel").on("show.bs.modal",function(event){
     $("#order_cancel").attr('data-id',$(event.relatedTarget).data("whatever"));
 })
 $("#order_cancel").on("click",function(){
     var $order_cancel_btn = $(this);
     var order_cancel_btn_id = $order_cancel_btn.attr("data-id");
+    var order_cancel_reason_id = $("#order_cancel_reason_list").val();
+
     $.ajax({
           type: 'GET',
           url: "http://test.wanglanyin.com/admin/operation",
           data: 
           {
-            "action":'cancel',
-            "id":order_cancel_btn_id
+            "action":'docancel',
+            "id":order_cancel_btn_id,
+            "cancel":order_cancel_reason_id
         },
         success: function(data){
             console.log(data);
             $order_cancel_btn.button('loading');
             list_updata(function(){
-                $('#orderDetails').modal('toggle');
+                $('#orderCancel').modal('toggle');
                 $order_cancel_btn.button('reset');
             });
         },
@@ -360,8 +426,8 @@ $("#order_cancel").on("click",function(){
         }
     })
 })
-
-$("#orderDel").on("show.bs.modal",function(){
+// 删除订单
+$("#orderDel").on("show.bs.modal",function(event){
     $("#order_del").attr('data-id',$(event.relatedTarget).data("whatever"));
 })
 $("#order_del").on("click",function(){
@@ -379,7 +445,7 @@ $("#order_del").on("click",function(){
             console.log(data);
             $order_del_btn.button('loading');
             list_updata(function(){
-                $('#orderDetails').modal('toggle');
+                $('#orderDel').modal('toggle');
                 $order_del_btn.button('reset');
             });
         },
@@ -391,19 +457,25 @@ $("#order_del").on("click",function(){
 // 提交按钮
 $("#order_info_sub").on("click",function(){
     var $btn = $(this);
-    $btn.button('loading');
 
     var serialno = $("#orderNum").val();
     var orderno = $("#platformNum").val();
     var fullname = $("#customerName").val();
     var phone = $("#customerPhone").val();
     var address = $("#customerAddress").val();
+    if(!(serialno && orderno && fullname && phone && address)){
+        alert("请填写完整的订单信息");
+        return;
+    }
+    
+    $btn.button('loading');
     var platform = $("#Platform").val();
     var store = $("#store_list").val();
-
+    $btn.button('reset');
+    console.log(platform.length,store.length);
     if(!parseInt($("#orderDetails").attr("btn-control"))){
         $.ajax({
-          type: 'GET',
+          type: 'POST',
           url: "http://test.wanglanyin.com/admin/insert",
           data: 
           {
@@ -438,7 +510,7 @@ $("#order_info_sub").on("click",function(){
               data: 
               {
                 "action":'edit',
-                "id":id,
+                "id":order_info_id,
                 "serialno":serialno,
                 "orderno":orderno,
                 "fullname":fullname,
@@ -457,6 +529,28 @@ $("#order_info_sub").on("click",function(){
             },
             failed:function(){
                 $btn.button('reset');
+            }
+        })
+    }
+})
+$("#sourch_input_btn").on("click",function(){
+    var source_phone = $("#sourch_input").val();
+    console.log(source_phone);
+    if(!source_phone){
+        return;
+    }else{
+
+        $.ajax({
+            url:'http://test.wanglanyin.com/admin/index',
+            data:{
+                "phone":source_phone
+            },
+            success:function(data,status){
+                if(data.code == 1){
+                    art_data = data.result; 
+                    var html = template('List', art_data);
+                    document.getElementById('complateList').innerHTML = html;
+                }
             }
         })
     }

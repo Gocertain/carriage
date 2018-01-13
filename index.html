@@ -56,6 +56,12 @@
                                     <li class="ant-menu-item-selected ant-menu-item">
                                         <a data-url="customer/customer.html" href="javascript:;" id="Fir"><span>订单信息</span></a>
                                     </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="customer/reason.html" href="javascript:;"><span>取消原因管理</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="customer/store.html" href="javascript:;"><span>门店管理</span></a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="ant-menu-submenu-inline ant-menu-submenu">
@@ -66,22 +72,14 @@
                                         <a data-url="first.html" href="javascript:;"><span>待派单</span></a>
                                     </li>
                                     <li class="ant-menu-item">
-                                        <a data-url="process.html" href="javascript:;"><span>配送中</span></a>
-                                    </li>
-                                    <li class="ant-menu-item">
-                                        <a data-url="completed.html" href="javascript:;"><span>已完成</span></a>
-                                    </li>
-                                    <li class="ant-menu-item" role="menuitem">
-                                        <a data-url="abnormal-order.html" href="javascript:;"><span>异常订单</span></a>
+                                        <a data-url="team-management.html" href="javascript:;"><span>配送人员管理</span></a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="ant-menu-submenu-inline ant-menu-submenu">
                                 <div class="ant-menu-submenu-title"><span><i class="oi oi-command anticon"></i><span>管理中心</span></span><i class="ant-menu-submenu-arrow"></i></div>
                                 <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
-                                    <li class="ant-menu-item">
-                                        <a data-url="team-management.html" href="javascript:;"><span>团队管理</span></a>
-                                    </li>
+                                    
                                     <li class="ant-menu-item">
                                         <a data-url="dispatch-record.html" href="javascript:;"><span>派单记录</span></a>
                                     </li>
@@ -154,8 +152,8 @@
                 </nav>
                 <div class="ant-layout-content" style="top:50px">
                     <div class="fm-content" id="FmContent">
-                        <!-- customer/customer -->
-                        <iframe src="team-management.html" frameborder="0" width="100%" height="100%" id="Iframe"></iframe>
+                        <!-- customer/customer,team-management -->
+                        <iframe src="customer/customer.html" frameborder="0" width="100%" height="100%" id="Iframe"></iframe>
                     </div>
                 </div>
             </div>
@@ -214,6 +212,8 @@
     $(document).on("click","a",function(){
             var iframeurl = $(this).attr("data-url");
             if(iframeurl){
+                // var thishref = 
+                // window.location.href = 
                 $("#Iframe").attr("src",iframeurl);
             }
     })

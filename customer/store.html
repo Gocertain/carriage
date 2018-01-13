@@ -7,19 +7,13 @@
     <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-    <script src="./public/js/art-template.min.js"></script>
+    <script src="../public/js/art-template.min.js"></script>
 </head>
 <body>
 <!-- add-->
 <div class="panel panel-default">
     <div class="panel-body">
-        <form class="form-inline">
-            <div class="form-group">
-                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="请输入查询信息">
-                <button type="submit" class="btn btn-default btn-primary">搜索</button>
-            </div>
-            <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#myModal1">添加</button>
-        </form>
+        <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#myModal1">添加</button>
     </div>
 </div>
 <!-- add -->
@@ -32,11 +26,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>团队成员</th>
-                            <th>联系方式</th>
-                            <th>职位</th>
-                            <th>工作状态</th>
-                            <th>单数</th>
+                            <th>门店名</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -73,7 +63,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    确认删除此员工信息？
+                    确认删除此门店吗？
                 </h4>
             </div>
             <div class="modal-footer">
@@ -81,27 +71,6 @@
                 </button>
                 <button type="submit" class="btn btn-danger" id="staff_del">
                     删除
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade bs-example-modal-sm" id="staffLeave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    确认此员工已离职？
-                </h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="submit" class="btn btn-warning" id="staff_del">
-                    确认离职
                 </button>
             </div>
         </div>
@@ -122,21 +91,9 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group staff-name">
-                        <label for="inputEmail3" class="col-sm-3 control-label">姓名：</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label">门店名：</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="姓名">
-                        </div>
-                    </div>
-                    <div class="form-group staff-phone">
-                        <label class="col-sm-3 control-label">联系方式：</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="联系方式">
-                        </div>
-                    </div>
-                    <div class="form-group staff-admin">
-                        <label class="col-sm-3 control-label">配送员帐号：</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="帐号">
+                            <input type="text" class="form-control" placeholder="门店名">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -163,33 +120,15 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel1">
-                    添加成员
+                    添加门店
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group staff-name">
-                        <label for="inputEmail3" class="col-sm-3 control-label">姓名：</label>
+                        <label class="col-sm-3 control-label">门店名：</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="姓名">
-                        </div>
-                    </div>
-                    <div class="form-group staff-phone">
-                        <label class="col-sm-3 control-label">联系方式：</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="联系方式">
-                        </div>
-                    </div>
-                    <div class="form-group staff-admin">
-                        <label class="col-sm-3 control-label">配送员帐号：</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="帐号">
-                        </div>
-                    </div>
-                    <div class="form-group staff-pass">
-                        <label class="col-sm-3 control-label">配送员密码：</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="密码：">
+                            <input type="text" class="form-control" placeholder="门店名">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -207,17 +146,10 @@
 <script id="List" type="text/html">
     {{each}}  
         <tr>
-            <td>{{$value.name}}</td>
-            <td>{{$value.phone}}</td>
-            <td>配送员</td>
-            <th>{{if($value.is_del) }} 在职 {{else }} 离职 {{/if}}</th>
-            <td>{{$value.num}}</td>
+            <td>{{$value.storename}}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#staffInfoRevise" data-whatever="{{$value}}">
                     编辑
-                </button>
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#staffLeave" data-whatever="{{$value.id}}"> 
-                    标记离职
                 </button>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staffDel" data-whatever="{{$value.id}}"> 
                     删除
@@ -229,7 +161,7 @@
 <script>
     function list_updata(callback){
         $.ajax({
-            url:"http://test.wanglanyin.com/distri/list",
+            url:"http://test.wanglanyin.com/create",
             success:function(data){
                 if(data.code == 1){
                     var data_list = data.result;
@@ -241,7 +173,7 @@
         })
     }
     list_updata();
-    // 配送员删除
+    // 门店删除
 $("#staffDel").on("show.bs.modal",function(event){
     $("#staff_del").attr('data-id',$(event.relatedTarget).data("whatever"));
 })
@@ -250,7 +182,7 @@ $("#staff_del").on("click",function(){
     var staff_del_btn_id = $staff_del_btn.attr("data-id");
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://test.wanglanyin.com/store",
           data: 
           {
             "action":'del',
@@ -273,10 +205,7 @@ $("#staffInfoRevise").on("show.bs.modal",function(event){
     var button = $(event.relatedTarget) // Button that triggered the modal
     var staff_info = button.data('whatever');
 
-     $("#staffInfoRevise").find(".staff-name input").val(staff_info.name);
-     $("#staffInfoRevise").find(".staff-phone input").val(staff_info.phone);
-     $("#staffInfoRevise").find(".staff-admin input").val(staff_info.username);
-     $("#staffInfoRevise").find(".staff-pass input").val(staff_info.password);
+     $("#staffInfoRevise").find(".staff-name input").val(staff_info.storename);
 
     $("#staff_info_revise").attr('data-id',staff_info.id);
 })
@@ -284,18 +213,18 @@ $("#staff_info_revise").on("click",function(){
     var $staff_del_btn = $(this);
     var staff_del_btn_id = $staff_del_btn.attr("data-id");
     var name = $("#staffInfoRevise").find(".staff-name input").val();
-    var phone = $("#staffInfoRevise").find(".staff-phone input").val();
-    var username = $("#staffInfoRevise").find(".staff-admin input").val();
+    if(!name){
+        alert("请填写完整的信息！")
+        return;
+    }
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://test.wanglanyin.com/store",
           data: 
           {
             "action":'edit',
             "id":staff_del_btn_id,
-            "name":name,
-            "phone":phone,
-            "username":username
+            "storename":name,
         },
         success: function(data){
             $staff_del_btn.button('loading');
@@ -309,30 +238,17 @@ $("#staff_info_revise").on("click",function(){
         }
     })
 });
-$("#myModal1").on("show.bs.modal",function(event){
-    $(this).find("input").val("");
-})
 // add staff
 $("#staff_add").on("click",function(){
     var $staff_add = $(this);
     var name = $("#myModal1").find(".staff-name input").val();
-    var phone = $("#myModal1").find(".staff-phone input").val();
-    var username = $("#myModal1").find(".staff-admin input").val();
-    var password = $("#myModal1").find(".staff-pass input").val();
-    if(!(name && phone && username && password)){
-        alert("请填写完整的信息！");
-        return;
-    }
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://test.wanglanyin.com/store",
           data: 
           {
             "action":"add",
-            "name":name,
-            "phone":phone,
-            "username":username,
-            "password":password
+            "storename":name
         },
         success: function(data){
             $staff_add.button('loading');

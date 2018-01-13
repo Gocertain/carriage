@@ -1,0 +1,23 @@
+/*配送*/
+.no-after:after{
+    height:0;
+    display:none;
+}
+.mui-table-view-cell>.mui-badge, .mui-table-view-cell>.mui-btn, .mui-table-view-cell>.mui-switch, .mui-table-view-cell>a>.mui-badge, .mui-table-view-cell>a>.mui-btn, .mui-table-view-cell>a>.mui-switch{
+    top:28px;
+    letter-spacing: 1px;
+}
+.img-btn{
+    position:relative;
+}
+.img-btn img{
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    left: 0;
+    top: 0;
+    opacity:0;
+}
+#scroll{
+    top:50px;
+}
