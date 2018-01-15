@@ -8,15 +8,43 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <script src="../public/js/art-template.min.js"></script>
-</head>
+    <style>
+        body{
+            position:absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+        }
+        nav{
+            width:100%;
+            position:fixed;
+            bottom:10px;
+            text-align:center;
+        }
+        .ma{
+            margin:0 auto;
+        }
+        .search-input{
+            width: 100%;
+            position:fixed;
+            left:0;
+            top:0;
+        }
+        .list-content{
+            margin-top:64px;
+            margin-bottom:60px;
+        }
+    </style>
+</head> 
 <body>
     <!-- search-->
-<div class="panel panel-default">
+<div class="panel panel-default search-input" >
     <div class="panel-body">
         <form class="form-inline col-sm-6" >
             <div class="form-group">
                 <label for="start-date">内容：</label>
-                <input type="text" class="form-control" id="sourch_input" placeholder="输入搜索信息...">
+                <input type="text" class="form-control" id="sourch_input" placeholder="请按客户电话搜索...">
             </div>
             <button type="button" class="btn btn-default btn-primary" id="sourch_input_btn">搜索</button>
         </form>
@@ -28,7 +56,7 @@
 </div>
 <!-- search-->
 <!--content-->
-<div class="panel panel-default">
+<div class="panel panel-default list-content">
     <div class="panel-body">
         <!-- 有产品显示 -->
         <div id="myTabContent" class="tab-content">
@@ -41,7 +69,7 @@
                             <th>平台编号</th>
                             <th>收货人姓名</th>
                             <th>联系电话</th>
-                            <th>收货地址</th>
+                            <th style="max-width:100px">收货地址</th>
                             <th>取货仓</th>
                             <th>配送方式</th>
                             <th>配送人员</th>
@@ -76,7 +104,30 @@
         </div>
         <!-- 没有数据显示 -->
     </div>
+    
 
+<nav aria-label="Page navigation">
+  <ul class="pagination pagination-lg">
+    <li>
+      <a href="#"  class="label label-primary" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">6</a></li>
+    <li><a href="#">7</a></li>
+    <li><a href="#">8</a></li>
+    <li>                                                                                                                                                    
+      <a href="#"  class="label label-primary" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 </div>
 <div class="modal fade" id="orderDetails" tabindex="-1" role="dialog" aria-labelledby="orderDetailsLabel">
     <div class="modal-dialog" role="document">
@@ -134,7 +185,6 @@
                                 <option value="饿了么">饿了么</option>
                                 <option value="美团">美团</option>
                                 <option value="百度">百度</option>
-
                             </select>
                         </div>
                     </div>
@@ -246,15 +296,15 @@
         <td>{{$value.start}}</td>
         <td>{{$value.end}}</td>
         <td>
-            {{if($value.is_distri == 1)}} 
+            {{if($value.is_distri == 1 && $value.state != 7)}} 
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#orderNext" data-whatever="{{$value.id}}">下发</button>
             {{else}}
             <button type="button" class="btn btn-deafult active">下发</button>
             {{/if}}
-            {{if($value.state == 3)}} 
-            <button type="button" class="btn btn-deafult active">编辑</button>
+            {{if($value.state == 1)}} 
+             <button type="button" class="btn btn-primary" data-loading-text="正在提交..." data-toggle="modal" data-target="#orderDetails" data-whatever="{{$value}}">编辑</button>
             {{else}}
-            <button type="button" class="btn btn-primary" data-loading-text="正在提交..." data-toggle="modal" data-target="#orderDetails" data-whatever="{{$value}}">编辑</button>
+           <button type="button" class="btn btn-deafult active">编辑</button>
             {{/if}}
 
             {{if($value.state == 7 || $value.state == 3)}} 
@@ -274,7 +324,7 @@ var art_data;
 // 列表所有内容显示
 function list_updata(callback){
     $.ajax({
-        url:'http://test.wanglanyin.com/admin/index',
+        url:'http://apidoc.qjk360.com/admin/index',
         success:function(data,status){
             if(data.code == 1){
                 art_data = data.result; 
@@ -290,7 +340,7 @@ list_updata();
 ;(function(){
     // 门店列表
     $.ajax({
-        url:'http://test.wanglanyin.com/create',
+        url:'http://apidoc.qjk360.com/create',
         success:function(data,status){
             if(data.code == 1){
                 var data_store_list = data.result;
@@ -308,7 +358,7 @@ list_updata();
     })
     // 取消原因
     $.ajax({
-        url:'http://test.wanglanyin.com/admin/operation',
+        url:'http://apidoc.qjk360.com/admin/operation',
         data:{
             "action":"cancel"
         },
@@ -376,7 +426,7 @@ $("#order_next").on("click",function(){
     console.log($order_next_btn.get(0))
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/admin/operation",
+          url: "http://apidoc.qjk360.com/admin/operation",
           data: 
           {
             "action":'todis',
@@ -406,7 +456,7 @@ $("#order_cancel").on("click",function(){
 
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/admin/operation",
+          url: "http://apidoc.qjk360.com/admin/operation",
           data: 
           {
             "action":'docancel',
@@ -435,7 +485,7 @@ $("#order_del").on("click",function(){
     var order_del_btn_id = $order_del_btn.attr("data-id");
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/admin/operation",
+          url: "http://apidoc.qjk360.com/admin/operation",
           data: 
           {
             "action":'del',
@@ -476,7 +526,7 @@ $("#order_info_sub").on("click",function(){
     if(!parseInt($("#orderDetails").attr("btn-control"))){
         $.ajax({
           type: 'POST',
-          url: "http://test.wanglanyin.com/admin/insert",
+          url: "http://apidoc.qjk360.com/admin/insert",
           data: 
           {
                 "serialno":serialno,
@@ -506,7 +556,7 @@ $("#order_info_sub").on("click",function(){
         var order_info_id = $btn.attr("data-id");
         $.ajax({
               type: 'GET',
-              url: "http://test.wanglanyin.com/admin/operation",
+              url: "http://apidoc.qjk360.com/admin/operation",
               data: 
               {
                 "action":'edit',
@@ -541,7 +591,7 @@ $("#sourch_input_btn").on("click",function(){
     }else{
 
         $.ajax({
-            url:'http://test.wanglanyin.com/admin/index',
+            url:'http://apidoc.qjk360.com/admin/index',
             data:{
                 "phone":source_phone
             },

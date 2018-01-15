@@ -8,6 +8,10 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <script src="./public/js/art-template.min.js"></script>
+    <script>
+        var page_text = "first";
+    </script>
+    <script src="./js/router.js"></script>
 </head>
 <body>
     <!-- search-->
@@ -180,6 +184,9 @@
         </div>
     </div>
 </div>
+
+
+
 <script id="List" type="text/html">
     {{each}}  
     <tr>
@@ -228,7 +235,7 @@
 <script>
 function list_updata(callback){
     $.ajax({
-        url:'http://test.wanglanyin.com/admin/distriMethod',
+        url:'http://apidoc.qjk360.com/admin/distriMethod',
         success:function(data,status){
             if(data.code == 1){
                var art_data = data.result; 
@@ -307,7 +314,7 @@ $("#distrib_sub").on("click",function(){
 
     }
     $.ajax({
-        url:'http://test.wanglanyin.com/admin/orderinfo',
+        url:'http://apidoc.qjk360.com/admin/orderinfo',
         data:options,
         success:function(data,status){
             if(data.code == 1){
@@ -328,7 +335,7 @@ $("#sourch_input_btn").on("click",function(){
     }else{
 
         $.ajax({
-            url:'http://test.wanglanyin.com/admin/index',
+            url:'http://apidoc.qjk360.com/admin/index',
             data:{
                 "phone":source_phone
             },

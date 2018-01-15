@@ -8,6 +8,10 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <script src="./public/js/art-template.min.js"></script>
+    <script>
+        var page_text = "team-managements";
+    </script>
+    <script src="./js/router.js"></script>
 </head>
 <body>
 <!-- add-->
@@ -100,7 +104,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="submit" class="btn btn-warning" id="staff_del">
+                <button type="submit" class="btn btn-warning" id="staff_leave">
                     确认离职
                 </button>
             </div>
@@ -229,7 +233,7 @@
 <script>
     function list_updata(callback){
         $.ajax({
-            url:"http://test.wanglanyin.com/distri/list",
+            url:"http://apidoc.qjk360.com/distri/list",
             success:function(data){
                 if(data.code == 1){
                     var data_list = data.result;
@@ -241,6 +245,35 @@
         })
     }
     list_updata();
+
+// 配送员离职
+
+$("#staffLeave").on("show.bs.modal",function(event){
+    $("#staff_leave").attr('data-id',$(event.relatedTarget).data("whatever"));
+})
+$("#staff_leave").on("click",function(){
+    var $staff_del_btn = $(this);
+    var staff_del_btn_id = $staff_del_btn.attr("data-id");
+    $.ajax({
+          type: 'GET',
+          url: "http://apidoc.qjk360.com/distri/operation",
+          data: 
+          {
+            "action":'leaveoffice',
+            "id":staff_del_btn_id
+        },
+        success: function(data){
+            $staff_del_btn.button('loading');
+            list_updata(function(){
+                $('#staffLeave').modal('toggle');
+                $staff_del_btn.button('reset');
+            });
+        },
+        failed:function(){
+            $staff_del_btn.button('reset');
+        }
+    })
+})
     // 配送员删除
 $("#staffDel").on("show.bs.modal",function(event){
     $("#staff_del").attr('data-id',$(event.relatedTarget).data("whatever"));
@@ -250,7 +283,7 @@ $("#staff_del").on("click",function(){
     var staff_del_btn_id = $staff_del_btn.attr("data-id");
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://apidoc.qjk360.com/distri/operation",
           data: 
           {
             "action":'del',
@@ -288,7 +321,7 @@ $("#staff_info_revise").on("click",function(){
     var username = $("#staffInfoRevise").find(".staff-admin input").val();
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://apidoc.qjk360.com/distri/operation",
           data: 
           {
             "action":'edit',
@@ -325,7 +358,7 @@ $("#staff_add").on("click",function(){
     }
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/distri/operation",
+          url: "http://apidoc.qjk360.com/distri/operation",
           data: 
           {
             "action":"add",

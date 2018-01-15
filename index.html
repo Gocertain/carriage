@@ -49,12 +49,18 @@
                     </div>
                     <div class="fm-sider-menu fm-scrollbar">
                         <ul class="ant-menu ant-menu-inline ant-menu-dark ant-menu-root" tabindex="0">
-                            <li class="ant-menu-submenu-inline ant-menu-submenu ant-menu-submenu-open">
+                            <!-- <li class="ant-menu-submenu-inline ant-menu-submenu ant-menu-submenu-open">
                                 <div class="ant-menu-submenu-title"><span><i class="oi oi-basket anticon"></i><span>订单分派</span></span>
-                                    <i class="ant-menu-submenu-arrow"></i></div>
-                                <ul class="ant-menu ant-menu-inline ant-menu-sub">
-                                    <li class="ant-menu-item-selected ant-menu-item">
+                                    <i class="ant-menu-submenu-arrow"></i></div> -->
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub"  id="fmSilderMenu">
+                                    <li class="ant-menu-item">
                                         <a data-url="customer/customer.html" href="javascript:;" id="Fir"><span>订单信息</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="first.html" href="javascript:;"><span>派单管理</span></a>
+                                    </li>
+                                    <li class="ant-menu-item">
+                                        <a data-url="team-management.html" href="javascript:;"><span>配送人员管理</span></a>
                                     </li>
                                     <li class="ant-menu-item">
                                         <a data-url="customer/reason.html" href="javascript:;"><span>取消原因管理</span></a>
@@ -62,19 +68,15 @@
                                     <li class="ant-menu-item">
                                         <a data-url="customer/store.html" href="javascript:;"><span>门店管理</span></a>
                                     </li>
-                                </ul>
-                            </li>
-                            <li class="ant-menu-submenu-inline ant-menu-submenu">
+                                <!-- </ul>
+                            </li> -->
+                            <!-- <li class="ant-menu-submenu-inline ant-menu-submenu">
                                 <div class="ant-menu-submenu-title"><span><i class="oi oi-basket anticon"></i><span>配送调度</span></span>
                                     <i class="ant-menu-submenu-arrow"></i></div>
-                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden">
-                                    <li class="ant-menu-item">
-                                        <a data-url="first.html" href="javascript:;"><span>待派单</span></a>
-                                    </li>
-                                    <li class="ant-menu-item">
-                                        <a data-url="team-management.html" href="javascript:;"><span>配送人员管理</span></a>
-                                    </li>
-                                </ul>
+                                <ul class="ant-menu ant-menu-inline ant-menu-sub ant-menu-hidden"> -->
+                                    
+                                    
+                                <!-- </ul>
                             </li>
                             <li class="ant-menu-submenu-inline ant-menu-submenu">
                                 <div class="ant-menu-submenu-title"><span><i class="oi oi-command anticon"></i><span>管理中心</span></span><i class="ant-menu-submenu-arrow"></i></div>
@@ -101,7 +103,7 @@
                                         <input type="text" id="test1" value="时间">
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -209,11 +211,39 @@
     var screenfull = new Screenfull();
     sider.init();
     screenfull.init();
+
+    function a_n_active(pagename){
+        var obj = $("#fmSilderMenu").find("a")
+        var anum = obj.length;
+        for(var i=0;i<anum;i++){
+            var obj_ele = obj.eq(i);
+            var obj_name = obj_ele.attr("data-url");
+            if(pagename == obj_name){
+                obj_ele.parent().addClass("ant-menu-item-selected").siblings().removeClass("ant-menu-item-selected");
+            }
+        }
+    }
+
+    var thishref = window.location.href;
+        var thishrefnum = thishref.indexOf("?page=");
+        var thishrefheader,thishrefpage;
+        console.log(thishrefnum);
+        if(thishrefnum > 0){
+            thishrefheader = thishref.substring(0,thishrefnum);
+            thishrefpage = thishref.substring(thishrefnum+6);
+            console.log(thishrefpage);
+            a_n_active(thishrefpage)
+            $("#Iframe").attr("src",thishrefpage);
+        }else{
+            thishrefheader = thishref;
+             $("#fmSilderMenu").find("a").eq(0).addClass("ant-menu-item-selected")
+    }
+
     $(document).on("click","a",function(){
             var iframeurl = $(this).attr("data-url");
+
             if(iframeurl){
-                // var thishref = 
-                // window.location.href = 
+                window.location = thishrefheader +"?page="+ iframeurl;
                 $("#Iframe").attr("src",iframeurl);
             }
     })

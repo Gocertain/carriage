@@ -8,6 +8,10 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <script src="../public/js/art-template.min.js"></script>
+    <script>
+        var page_text = "customer/reason";
+    </script>
+    <script src="../js/router.js"></script>
 </head>
 <body>
 <!-- add-->
@@ -150,7 +154,7 @@
 <script>
     function list_updata(callback){
         $.ajax({
-            url:"http://test.wanglanyin.com/admin/operation",
+            url:"http://apidoc.qjk360.com/admin/operation",
             data:{
                 "action":"cancel"
             },
@@ -174,7 +178,7 @@ $("#staff_del").on("click",function(){
     var staff_del_btn_id = $staff_del_btn.attr("data-id");
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/cancelorder",
+          url: "http://apidoc.qjk360.com/cancelorder",
           data: 
           {
             "action":'del',
@@ -207,7 +211,7 @@ $("#staff_info_revise").on("click",function(){
     var name = $("#staffInfoRevise").find(".staff-name input").val();
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/cancelorder",
+          url: "http://apidoc.qjk360.com/cancelorder",
           data: 
           {
             "action":'edit',
@@ -236,7 +240,7 @@ $("#staff_add").on("click",function(){
     }
     $.ajax({
           type: 'GET',
-          url: "http://test.wanglanyin.com/cancelorder",
+          url: "http://apidoc.qjk360.com/cancelorder",
           data: 
           {
             "action":"add",
