@@ -155,7 +155,7 @@
 
            //取消原因
            $.ajax({
-                url:'http://test.wanglanyin.com/admin/operation',
+                url:'http://apidoc.qjk360.com/admin/operation',
                 data:{
                     "action":"cancel"
                 },
@@ -209,7 +209,7 @@
             //获取全部列表数据
             function getlistall(n, fn) {
                 count = 1;
-                var url = "http://test.wanglanyin.com/wap/show";
+                var url = "http://apidoc.qjk360.com/wap/show";
                 var datas;
                 mui.ajax(url, {
                     data: {
@@ -242,11 +242,11 @@
                 var datas = {};
                 datas.state = state;
                 if(reason){
-                    url = "http://test.wanglanyin.com/wap/change"
+                    url = "http://apidoc.qjk360.com/wap/change"
                     datas.id = id;
                     datas.cancel_id = reason;
                 }else{
-                    url = "http://test.wanglanyin.com/wap/accept";
+                    url = "http://apidoc.qjk360.com/wap/accept";
                     datas.uid = user_uid;
                     datas.orderid = id;
                 }

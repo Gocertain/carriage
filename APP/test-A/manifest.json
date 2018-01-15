@@ -1096,11 +1096,12 @@
 		}
 	},
     "unpackage": [
-        "css/mui.dtpicker.css",
-        "css/mui.listpicker.css",
-        "css/mui.picker.all.css",
-        "js/mui.dtpicker.js",
-        "js/mui.listpicker.js",
-        "js/mui.picker.all.js"
-    ]
+	  "css/mui.dtpicker.css",
+	  "css/mui.listpicker.css",
+	  "css/mui.picker.all.css",
+	  "js/mui.dtpicker.js",
+	  "js/mui.listpicker.js",
+	  "js/mui.picker.all.js",
+	  "libs/easymob-webim-sdk/quickstart.md"
+	]
 }
