@@ -107,23 +107,22 @@
     
 
 <nav aria-label="Page navigation">
-  <ul class="pagination pagination-lg">
+  <ul class="pagination pagination-lg" id="nav_ele">
     <li>
-      <a href="#"  class="label label-primary" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
+      <a href="javascript:;" >
+        首页
       </a>
     </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">6</a></li>
-    <li><a href="#">7</a></li>
-    <li><a href="#">8</a></li>
-    <li>                                                                                                                                                    
-      <a href="#"  class="label label-primary" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
+    <li class="active"><a href="javascript:;">1</a></li>
+    <li><a href="javascript:;">2</a></li>
+    <li><a href="javascript:;">3</a></li>
+    <li><a href="javascript:;">4</a></li>
+    <li><a href="javascript:;">5</a></li>
+    <li><a href="javascript:;">6</a></li>
+    <li><a href="javascript:;">7</a></li>
+    <li><a href="javascript:;">8</a></li>
+    <li>                                                                                                                                                  
+      <a href="javascript:;">末页
       </a>
     </li>
   </ul>
@@ -254,8 +253,6 @@
     </div>
   </div>
 </div>
-
-
 <script id="List" type="text/html">
     {{each}}  
     <tr>
@@ -319,12 +316,17 @@
 </script>
 <script>
 
-var art_data;
 
+var art_data;
+var page_num = 1;
 // 列表所有内容显示
-function list_updata(callback){
+function list_updata(callback,n){
+    callback
     $.ajax({
         url:'http://apidoc.qjk360.com/admin/index',
+        data:{
+            "page":n
+        },
         success:function(data,status){
             if(data.code == 1){
                 art_data = data.result; 
@@ -335,7 +337,13 @@ function list_updata(callback){
         }
     })
 }
-list_updata();
+list_updata(null,page_num);
+
+$("#nav_ele").on("click","li",function(){
+    $(this).addClass("active").siblings().removeClass("active");
+    page_num = $(this).text();
+    list_updata(null,page_num);
+})
 
 ;(function(){
     // 门店列表
@@ -438,7 +446,7 @@ $("#order_next").on("click",function(){
             list_updata(function(){
                 $('#orderNext').modal('toggle');
                 $order_next_btn.button('reset');
-            });
+            },page_num);
         },
         failed:function(){
             $order_next_btn.button('reset');
@@ -469,7 +477,7 @@ $("#order_cancel").on("click",function(){
             list_updata(function(){
                 $('#orderCancel').modal('toggle');
                 $order_cancel_btn.button('reset');
-            });
+            },page_num);
         },
         failed:function(){
             $order_cancel_btn.button('reset');
@@ -497,7 +505,7 @@ $("#order_del").on("click",function(){
             list_updata(function(){
                 $('#orderDel').modal('toggle');
                 $order_del_btn.button('reset');
-            });
+            },page_num);
         },
         failed:function(){
             $order_del_btn.button('reset');
@@ -543,7 +551,7 @@ $("#order_info_sub").on("click",function(){
                     list_updata(function(){
                         $('#orderDetails').modal('toggle');
                         $btn.button('reset');
-                    });
+                    },page_num);
                     console.log("success")
             },
             failed:function(){
@@ -575,7 +583,7 @@ $("#order_info_sub").on("click",function(){
                 list_updata(function(){
                     $('#orderDetails').modal('toggle');
                     $btn.button('reset');
-                });
+                },page_num);
             },
             failed:function(){
                 $btn.button('reset');

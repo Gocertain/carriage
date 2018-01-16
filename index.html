@@ -52,7 +52,7 @@
                             <!-- <li class="ant-menu-submenu-inline ant-menu-submenu ant-menu-submenu-open">
                                 <div class="ant-menu-submenu-title"><span><i class="oi oi-basket anticon"></i><span>订单分派</span></span>
                                     <i class="ant-menu-submenu-arrow"></i></div> -->
-                                <ul class="ant-menu ant-menu-inline ant-menu-sub"  id="fmSilderMenu">
+                                <ul class="ant-menu ant-menu-sub"  id="fmSilderMenu">
                                     <li class="ant-menu-item">
                                         <a data-url="customer/customer.html" href="javascript:;" id="Fir"><span>订单信息</span></a>
                                     </li>
@@ -236,7 +236,7 @@
             $("#Iframe").attr("src",thishrefpage);
         }else{
             thishrefheader = thishref;
-             $("#fmSilderMenu").find("a").eq(0).addClass("ant-menu-item-selected")
+             $("#fmSilderMenu").children().eq(0).addClass("ant-menu-item-selected")
     }
 
     $(document).on("click","a",function(){
